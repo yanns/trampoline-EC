@@ -1,6 +1,6 @@
 # Testing the trampoline execution context with Scala Futures
 
-Some performances test that compare:
+Some performance tests that compare:
 - scala Futures with the global Execution 
 - scala Futures with the trampoline EC
 - scalaz Tasks (for some tests)
