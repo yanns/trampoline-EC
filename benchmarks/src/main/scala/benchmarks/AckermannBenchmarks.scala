@@ -1,6 +1,6 @@
 package benchmarks
 
-import futures.ScalaFuture
+import futures.{ScalaFuture, SimpleFastFuture}
 import org.openjdk.jmh.annotations.Benchmark
 import tasks.ScalazTask
 
@@ -26,4 +26,9 @@ class AckermannBenchmarks {
     new ScalazTask().ackermann(3, 3).unsafePerformSync
   }
 
+  @Benchmark
+  def fastFuture(): Unit = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    Await.result(new SimpleFastFuture().ackermann(3, 3), Duration.Inf)
+  }
 }

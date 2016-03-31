@@ -1,6 +1,6 @@
 package benchmarks
 
-import futures.ScalaFuture
+import futures.{ScalaFuture, SimpleFastFuture}
 import org.openjdk.jmh.annotations.Benchmark
 import tasks.ScalazTask
 
@@ -20,6 +20,12 @@ class RangeBenchmarks {
   def scalaFuturesTrampoline(): Unit = {
     import concurrent.Execution.Implicits.trampoline
     Await.result(new ScalaFuture().range(5000000), Duration.Inf)
+  }
+
+  @Benchmark
+  def fastFuture(): Unit = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    Await.result(new SimpleFastFuture().range(5000000), Duration.Inf)
   }
 
 }

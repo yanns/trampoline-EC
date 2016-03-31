@@ -1,6 +1,6 @@
 package benchmarks
 
-import futures.ScalaFuture
+import futures.{ScalaFuture, SimpleFastFuture}
 import org.openjdk.jmh.annotations.Benchmark
 import tasks.ScalazTask
 
@@ -25,6 +25,12 @@ class FactorialBenchmarks {
   @Benchmark
   def scalazTasks(): Unit = {
     new ScalazTask().factorial(5000).unsafePerformSync
+  }
+
+  @Benchmark
+  def fastFuture(): Unit = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    Await.result(new SimpleFastFuture().factorial(5000), Duration.Inf)
   }
 
 }
